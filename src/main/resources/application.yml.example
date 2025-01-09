@@ -1,0 +1,23 @@
+server:
+  port: <app-port>
+  error:
+    include-message: always
+
+spring:
+  application:
+    name: <app-name>
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://<host>:<port>/<db>
+    username: root
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
