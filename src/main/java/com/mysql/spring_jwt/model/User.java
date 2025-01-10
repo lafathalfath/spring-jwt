@@ -27,19 +27,20 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstname;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastname;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
     @Override

@@ -5,9 +5,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.mysql.spring_jwt.model.AuthenticationResponse;
+import com.mysql.spring_jwt.model.Role;
 import com.mysql.spring_jwt.model.User;
 import com.mysql.spring_jwt.repository.UserRepository;
+import com.mysql.spring_jwt.response.AuthenticationResponse;
 
 @Service
 public class AuthenticationService {
@@ -30,7 +31,7 @@ public class AuthenticationService {
         user.setLastname(request.getLastname());
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole());
+        user.setRole(Role.USER);
         user = repository.save(user);
         String token = jwtService.generateToken(user);
         return new AuthenticationResponse(token);

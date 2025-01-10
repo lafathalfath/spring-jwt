@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mysql.spring_jwt.model.AuthenticationResponse;
 import com.mysql.spring_jwt.model.User;
+import com.mysql.spring_jwt.response.AuthenticationResponse;
 import com.mysql.spring_jwt.service.AuthenticationService;
 
 @RestController

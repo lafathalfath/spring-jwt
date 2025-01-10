@@ -1,4 +1,4 @@
-package com.mysql.spring_jwt.model;
+package com.mysql.spring_jwt.response;
 
 public class AuthenticationResponse {
     
