@@ -13,24 +13,23 @@ import com.mysql.spring_jwt.repository.UserRepository;
 public class UserSeeder implements CommandLineRunner {
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
-        if (repository.count() == 0) {
+        if (userRepository.count() == 0) {
             User admin = new User();
-            admin.setFirstname("Application");
-            admin.setLastname("Manager");
+            admin.setEmail("admin@gmail.com");
             admin.setUsername("Admin");
             admin.setPassword(passwordEncoder.encode("password"));
             admin.setRole(Role.ADMIN);
 
-            repository.save(admin);
+            userRepository.save(admin);
 
-            System.out.println("User seed success!!");
+            System.out.println("---SEEDER: User seed success!!");
         }
     }
 

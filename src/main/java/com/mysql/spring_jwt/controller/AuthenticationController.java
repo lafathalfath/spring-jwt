@@ -13,21 +13,21 @@ import com.mysql.spring_jwt.service.AuthenticationService;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthenticationController {
-    
-    private final AuthenticationService authService;
 
-    public AuthenticationController(AuthenticationService authService) {
-        this.authService = authService;
+    private final AuthenticationService authenticationService;
+
+    public AuthenticationController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody User request) {
-        return ResponseEntity.ok(authService.register(request));
+        return ResponseEntity.ok(authenticationService.register(request));
     }
-    
+
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody User request) {
-        return ResponseEntity.ok(authService.authenticate(request));
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
 }

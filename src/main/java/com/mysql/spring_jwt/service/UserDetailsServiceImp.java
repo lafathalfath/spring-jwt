@@ -10,15 +10,15 @@ import com.mysql.spring_jwt.repository.UserRepository;
 @Service
 public class UserDetailsServiceImp implements UserDetailsService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
 
-    public UserDetailsServiceImp(UserRepository repository) {
-        this.repository = repository;
+    public UserDetailsServiceImp(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByUsername(username)
+        return userRepository.findByUsernameOrEmail(username)
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
     

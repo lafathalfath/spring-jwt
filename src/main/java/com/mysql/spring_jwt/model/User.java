@@ -7,6 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,11 +17,17 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "user")
 public class User implements UserDetails {
     
@@ -27,22 +36,46 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "first_name", nullable = false)
-    private String firstname;
-
-    @Column(name = "last_name", nullable = false)
-    private String lastname;
-
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(
+        name = "username",
+        unique = true,
+        nullable = false
+    )
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(
+        name = "email",
+        unique = true,
+        nullable = false
+    )
+    private String email;
+
+    @Column(
+        name = "password",
+        nullable = false
+    )
     private String password;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
+    @OneToOne(
+        mappedBy = "user",
+        cascade = CascadeType.ALL
+    )
+    @JsonManagedReference
+    private UserProfile userProfile;
+
+    @OneToMany(
+        mappedBy = "user",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    @JsonManagedReference
+    private List<Article> article;
+
+    // auth
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
