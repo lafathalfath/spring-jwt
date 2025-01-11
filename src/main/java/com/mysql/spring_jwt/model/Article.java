@@ -48,4 +48,10 @@ public class Article {
     )
     private String content;
 
+    @Column(
+        name = "image_url",
+        nullable = true
+    )
+    private String imageUrl;
+
 }

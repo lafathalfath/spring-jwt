@@ -71,7 +71,7 @@ public class JwtService {
     }
 
     public Integer extractUserId(String token) {
-        token = token.substring(7);
+        if (token != null && token.startsWith("Bearer ")) token = token.substring(7);
         return extractClaim(token, claim -> claim.get("id", Integer.class));
     }
 

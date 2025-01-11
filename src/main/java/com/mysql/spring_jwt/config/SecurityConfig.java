@@ -35,7 +35,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(
                 req -> req.requestMatchers(
                         "/api/auth/**",
-                        "/api/article/**"
+                        "/api/article/**",
+                        "/api/storage/**"
                     )
                     .permitAll()
                     .requestMatchers(
