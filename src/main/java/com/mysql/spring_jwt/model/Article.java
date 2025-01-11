@@ -33,7 +33,7 @@ public class Article {
         nullable = false
     )
     @JsonBackReference
-    private User user;
+    private User author;
 
     @Column(
         name = "title",

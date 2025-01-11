@@ -28,7 +28,7 @@ public class UserProfile {
 
     @OneToOne
     @JoinColumn(
-        name = "profile_id",
+        name = "user_id",
         nullable = false,
         referencedColumnName = "id"
     )

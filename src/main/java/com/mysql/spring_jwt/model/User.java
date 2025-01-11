@@ -68,7 +68,7 @@ public class User implements UserDetails {
     private UserProfile userProfile;
 
     @OneToMany(
-        mappedBy = "user",
+        mappedBy = "author",
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mysql.spring_jwt.model.Article;
+import com.mysql.spring_jwt.model.User;
+import com.mysql.spring_jwt.repository.UserRepository;
 import com.mysql.spring_jwt.service.ArticleService;
 
 @RestController
@@ -15,9 +17,14 @@ import com.mysql.spring_jwt.service.ArticleService;
 public class ArticleController {
     
     private final ArticleService articleService;
+    private final UserRepository userRepository;
 
-    public ArticleController(ArticleService articleService) {
+    public ArticleController(
+        ArticleService articleService,
+        UserRepository userRepository
+    ) {
         this.articleService = articleService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
@@ -28,6 +35,12 @@ public class ArticleController {
     @GetMapping("/{id}")
     public Article getArticleById(@PathVariable Integer id) {
         return articleService.getArticleById(id);
+    }
+
+    @GetMapping("/user")
+    public User getUser() {
+        User user = userRepository.findAll().get(0);
+        return user;
     }
 
 }
