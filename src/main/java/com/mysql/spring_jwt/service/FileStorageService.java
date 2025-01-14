@@ -26,6 +26,7 @@ public class FileStorageService {
 
         String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
         String fileUrl = BASE_URL + "/api/storage/" + subject + "/" + filename;
+        fileUrl = fileUrl.replaceAll(" ", "%20");
 
         String filePath = targetPath + filename;
         file.transferTo(new File(filePath));

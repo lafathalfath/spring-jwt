@@ -13,19 +13,19 @@ public class DbSeeder {
 
     private final UserSeeder userSeeder;
     private final UserProfileSeeder userProfileSeeder;
-    private final ArticleSeeder articleSeeder;
+    // private final ArticleSeeder articleSeeder;
     
     private final UserRepository userRepository;
 
     public DbSeeder(
         UserSeeder userSeeder,
         UserProfileSeeder userProfileSeeder,
-        ArticleSeeder articleSeeder,
+        // ArticleSeeder articleSeeder,
         UserRepository userRepository
     ) {
         this.userSeeder = userSeeder;
         this.userProfileSeeder = userProfileSeeder;
-        this.articleSeeder = articleSeeder;
+        // this.articleSeeder = articleSeeder;
         this.userRepository = userRepository;
     }
 
@@ -34,7 +34,7 @@ public class DbSeeder {
         if (userRepository.count() == 0) {
             User user1 = userSeeder.seed("Admin", "admin@gmail.com", "password", Role.ADMIN);
             userProfileSeeder.seed(user1, "Bogor", "081234567890");
-            articleSeeder.seed(user1, "First Seeds article", "Is this succeed??");
+            // articleSeeder.seed(user1, "First Seeds article", "Is this succeed??");
         }
     }
 

@@ -35,16 +35,28 @@ public class SecurityConfig {
             .authorizeHttpRequests(
                 req -> req.requestMatchers(
                         "/api/auth/**",
-                        "/api/article/**",
-                        "/api/storage/**"
+                        "/api/storage/**",
+                        "/api/articles",
+                        "/api/articles/{id}",
+                        "/api/categories/{id}",
+                        "/api/categories"
                     )
                     .permitAll()
                     .requestMatchers(
                         "/api/demo/admin/**"
                     )
                     .hasAnyAuthority("ADMIN")
-                    .anyRequest()
+                    .requestMatchers(
+                        "/api/articles/store",
+                        "/api/articles/{id}/update",
+                        "/api/articles/{id}/destroy",
+                        "/api/categories/store",
+                        "/api/categories/{id}/update",
+                        "/api/categories/{id}/destroy"
+                    )
                     .authenticated()
+                    .anyRequest()
+                    .denyAll()
             )
             .userDetailsService(userDetailsServiceImp)
             .sessionManagement(session -> session
