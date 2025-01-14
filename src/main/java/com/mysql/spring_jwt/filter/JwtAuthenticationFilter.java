@@ -9,8 +9,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.mysql.spring_jwt.service.JwtService;
-import com.mysql.spring_jwt.service.UserDetailsServiceImp;
+import com.mysql.spring_jwt.service.auth.JwtService;
+import com.mysql.spring_jwt.service.auth.UserDetailsServiceImp;
 
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.FilterChain;

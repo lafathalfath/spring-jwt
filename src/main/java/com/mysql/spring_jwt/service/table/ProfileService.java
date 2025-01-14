@@ -1,4 +1,4 @@
-package com.mysql.spring_jwt.service;
+package com.mysql.spring_jwt.service.table;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -8,6 +8,7 @@ import com.mysql.spring_jwt.model.User;
 import com.mysql.spring_jwt.model.UserProfile;
 import com.mysql.spring_jwt.repository.UserProfileRepository;
 import com.mysql.spring_jwt.repository.UserRepository;
+import com.mysql.spring_jwt.service.auth.JwtService;
 
 @Service
 public class ProfileService {

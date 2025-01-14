@@ -1,4 +1,4 @@
-package com.mysql.spring_jwt.service;
+package com.mysql.spring_jwt.service.table;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +13,8 @@ import com.mysql.spring_jwt.model.Article;
 import com.mysql.spring_jwt.model.User;
 import com.mysql.spring_jwt.repository.ArticleRepository;
 import com.mysql.spring_jwt.repository.UserRepository;
+import com.mysql.spring_jwt.service.auth.JwtService;
+import com.mysql.spring_jwt.service.storage.FileStorageService;
 
 import jakarta.servlet.http.HttpServletRequest;
 

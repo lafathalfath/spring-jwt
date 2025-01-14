@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mysql.spring_jwt.model.User;
 import com.mysql.spring_jwt.response.AuthenticationResponse;
-import com.mysql.spring_jwt.service.AuthenticationService;
+import com.mysql.spring_jwt.service.auth.AuthenticationService;
 
 @RestController
 @RequestMapping("/api/auth")

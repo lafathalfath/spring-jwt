@@ -1,4 +1,4 @@
-package com.mysql.spring_jwt.service;
+package com.mysql.spring_jwt.service.table;
 
 import java.util.List;
 

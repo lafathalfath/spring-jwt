@@ -1,4 +1,4 @@
-package com.mysql.spring_jwt.service;
+package com.mysql.spring_jwt.service.auth;
 
 import java.util.Date;
 import java.util.function.Function;

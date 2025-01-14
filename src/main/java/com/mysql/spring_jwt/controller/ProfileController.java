@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mysql.spring_jwt.model.User;
 import com.mysql.spring_jwt.model.UserProfile;
-import com.mysql.spring_jwt.service.ProfileService;
+import com.mysql.spring_jwt.service.table.ProfileService;
 
 @RestController
 @RequestMapping("/api/profile")

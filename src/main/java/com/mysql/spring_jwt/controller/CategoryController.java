@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mysql.spring_jwt.model.Category;
-import com.mysql.spring_jwt.service.CategoryService;
+import com.mysql.spring_jwt.service.table.CategoryService;
 
 @RestController
 @RequestMapping("/api/categories")

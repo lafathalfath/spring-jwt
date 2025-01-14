@@ -1,4 +1,4 @@
-package com.mysql.spring_jwt.service;
+package com.mysql.spring_jwt.service.auth;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

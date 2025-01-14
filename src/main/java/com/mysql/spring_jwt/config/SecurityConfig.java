@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.mysql.spring_jwt.filter.JwtAuthenticationFilter;
-import com.mysql.spring_jwt.service.UserDetailsServiceImp;
+import com.mysql.spring_jwt.service.auth.UserDetailsServiceImp;
 
 @Configuration
 @EnableWebSecurity

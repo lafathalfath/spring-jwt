@@ -1,4 +1,4 @@
-package com.mysql.spring_jwt.service;
+package com.mysql.spring_jwt.service.storage;
 
 import java.io.File;
 import java.io.IOException;
