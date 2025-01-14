@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mysql.spring_jwt.model.Role;
 import com.mysql.spring_jwt.model.User;
+import com.mysql.spring_jwt.model.UserProfile;
 import com.mysql.spring_jwt.repository.UserRepository;
 import com.mysql.spring_jwt.response.AuthenticationResponse;
 
@@ -28,12 +29,14 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(User request) {
         User user = new User();
-        // user.setFirstname(request.getFirstname());
-        // user.setLastname(request.getLastname());
         user.setEmail(request.getEmail());
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.USER);
+        UserProfile profile = request.getUserProfile();
+        profile.setAddress(null);
+        profile.setPhone(null);
+        user.setUserProfile(profile);
         user = userRepository.save(user);
         String token = jwtService.generateToken(user);
         return new AuthenticationResponse(token);

@@ -33,7 +33,8 @@ public class SecurityConfig {
         return http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(
-                req -> req.requestMatchers(
+                req -> req
+                    .requestMatchers(
                         "/api/auth/**",
                         "/api/storage/**",
                         "/api/articles",
@@ -47,12 +48,11 @@ public class SecurityConfig {
                     )
                     .hasAnyAuthority("ADMIN")
                     .requestMatchers(
+                        "/api/account/**",
                         "/api/articles/store",
-                        "/api/articles/{id}/update",
-                        "/api/articles/{id}/destroy",
+                        "/api/articles/{id}/**",
                         "/api/categories/store",
-                        "/api/categories/{id}/update",
-                        "/api/categories/{id}/destroy"
+                        "/api/categories/{id}/**"
                     )
                     .authenticated()
                     .anyRequest()
@@ -61,7 +61,7 @@ public class SecurityConfig {
             .userDetailsService(userDetailsServiceImp)
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // middleware
             .build();
     }
 

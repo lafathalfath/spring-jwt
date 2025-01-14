@@ -1,6 +1,6 @@
 package com.mysql.spring_jwt.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +32,7 @@ public class UserProfile {
         nullable = false,
         referencedColumnName = "id"
     )
-    @JsonBackReference
+    @JsonIgnore
     private User user;
 
     @Column(
