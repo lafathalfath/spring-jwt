@@ -82,7 +82,7 @@ public class ArticleService {
         );
     }
 
-    public ResponseDto<Article> store(String title, String content, MultipartFile image, List<Integer> categories_id) throws IOException {
+    public ResponseDto<?> store(String title, String content, MultipartFile image, List<Integer> categoriesId) throws IOException {
         Integer userId = jwtService.extractUserId(servletRequest.getHeader("Authorization"));
         User author = userRepository.findById(userId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "forbidden"));
@@ -90,13 +90,13 @@ public class ArticleService {
         article.setAuthor(author);
         article.setTitle(title);
         article.setContent(content);
-        if (image != null) {
+        if (image != null && !image.isEmpty()) {
             String imageUrl = fileStorageService.store(image, "article");
             article.setImageUrl(imageUrl);
         }
-        Set<Category> categories = new HashSet<>();
-        if (categories_id != null && !categories_id.isEmpty()) {
-            categories.addAll(categoryRepository.findAllById(categories_id));
+        if (categoriesId != null && !categoriesId.isEmpty()) {
+            Set<Category> categories = new HashSet<>();
+            categories.addAll(categoryRepository.findAllById(categoriesId));
             article.setCategories(categories);
         }
         return new ResponseDto<Article>(
@@ -106,20 +106,18 @@ public class ArticleService {
         );
     }
 
-    public ResponseDto<Article> update(Integer id, String title, String content, MultipartFile image, List<Integer> categories_id) throws IOException {
-        Integer userId = jwtService.extractUserId(servletRequest.getHeader("Authorization"));
+    public ResponseDto<Article> update(Integer id, String title, String content, MultipartFile image, List<Integer> categoriesId) throws IOException {
         Article article = articleRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "article not found"));
-        if (userId != article.getAuthor().getId()) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "unauthorized");
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Article not found"));
         article.setTitle(title);
         article.setContent(content);
         if (image != null) {
             String imageUrl = fileStorageService.store(image, "article");
             article.setImageUrl(imageUrl);
         }
-        Set<Category> categories = new HashSet<>();
-        if (categories_id != null && !categories_id.isEmpty()) {
-            categories.addAll(categoryRepository.findAllById(categories_id));;
+        if (categoriesId != null) {
+            Set<Category> categories = new HashSet<>(categoryRepository.findAllById(categoriesId));
+            // categories.addAll(categoryRepository.findAllById(categoriesId));
             article.setCategories(categories);
         }
         Article updatedArticle = articleRepository.save(article);

@@ -53,11 +53,11 @@ public class ArticleController {
         @RequestParam String title,
         @RequestParam String content,
         @RequestParam(required = false) MultipartFile image,
-        @RequestParam(required = false) List<Integer> categories_id
+        @RequestParam(required = false, name = "categories") List<Integer> categoriesId
     ) throws IOException {
         return ResponseEntity
             .status(200)
-            .body(articleService.store(title, content, image, categories_id));
+            .body(articleService.store(title, content, image, categoriesId));
     }
 
     @PutMapping("/{id}/update")
@@ -66,11 +66,11 @@ public class ArticleController {
         @RequestParam String title,
         @RequestParam String content,
         @RequestParam(required = false) MultipartFile image,
-        @RequestParam(required = false) List<Integer> categories_id
+        @RequestParam(required = false, name = "categories") List<Integer> categoriesId
     ) throws IOException {
         return ResponseEntity
             .status(200)
-            .body(articleService.update(id, title, content, image, categories_id));
+            .body(articleService.update(id, title, content, image, categoriesId));
     }
 
     @DeleteMapping("/{id}/destroy")
