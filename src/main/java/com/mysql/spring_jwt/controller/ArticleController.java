@@ -1,6 +1,7 @@
 package com.mysql.spring_jwt.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,15 +42,22 @@ public class ArticleController {
             .body(articleService.getArticleById(id));
     }
 
+    @GetMapping("/get-my-articles")
+    public ResponseEntity<?> getMyArticles() {
+        return ResponseEntity.status(200)
+            .body(articleService.getMyArticles());
+    }
+
     @PostMapping("/store")
     public ResponseEntity<?> store(
         @RequestParam String title,
         @RequestParam String content,
-        @RequestParam(required = false) MultipartFile image
+        @RequestParam(required = false) MultipartFile image,
+        @RequestParam(required = false) List<Integer> categories_id
     ) throws IOException {
         return ResponseEntity
             .status(200)
-            .body(articleService.store(title, content, image));
+            .body(articleService.store(title, content, image, categories_id));
     }
 
     @PutMapping("/{id}/update")
@@ -57,12 +65,12 @@ public class ArticleController {
         @PathVariable Integer id,
         @RequestParam String title,
         @RequestParam String content,
-        @RequestParam(required = false) MultipartFile image
+        @RequestParam(required = false) MultipartFile image,
+        @RequestParam(required = false) List<Integer> categories_id
     ) throws IOException {
-        // articleService.update(id, title, content, image)
         return ResponseEntity
             .status(200)
-            .body(articleService.update(id, title, content, image));
+            .body(articleService.update(id, title, content, image, categories_id));
     }
 
     @DeleteMapping("/{id}/destroy")
@@ -71,5 +79,7 @@ public class ArticleController {
             .status(204)
             .body(articleService.destroy(id));
     }
+
+    
 
 }

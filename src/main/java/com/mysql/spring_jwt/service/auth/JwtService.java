@@ -5,8 +5,10 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.mysql.spring_jwt.model.User;
 
@@ -20,7 +22,7 @@ public class JwtService {
     
     private String SECRET_KEY = "167a0cc18d5b5e545204d0c1bd76ee9671a5ab8e9abef1af705d6b2253ad791b";
         
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
         
@@ -33,7 +35,7 @@ public class JwtService {
         return resolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts
             .parser()
             .verifyWith(getSignInKey())
@@ -68,6 +70,13 @@ public class JwtService {
             .signWith(getSignInKey())
             .compact();
         return token;
+    }
+
+    public String refreshToken(String token, User user) {
+        if (token != null && token.startsWith("Bearer ")) token = token.substring(7);
+        if (!isValid(token, user)) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Token");
+        // Claims claims = extractAllClaims(token);
+        return generateToken(user);
     }
 
     public Integer extractUserId(String token) {

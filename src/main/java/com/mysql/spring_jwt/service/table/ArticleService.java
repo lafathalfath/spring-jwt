@@ -1,7 +1,9 @@
 package com.mysql.spring_jwt.service.table;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -10,8 +12,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.mysql.spring_jwt.dto.ResponseDto;
 import com.mysql.spring_jwt.model.Article;
+import com.mysql.spring_jwt.model.Category;
 import com.mysql.spring_jwt.model.User;
 import com.mysql.spring_jwt.repository.ArticleRepository;
+import com.mysql.spring_jwt.repository.CategoryRepository;
 import com.mysql.spring_jwt.repository.UserRepository;
 import com.mysql.spring_jwt.service.auth.JwtService;
 import com.mysql.spring_jwt.service.storage.FileStorageService;
@@ -23,6 +27,7 @@ public class ArticleService {
     
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
     private final JwtService jwtService;
     private final FileStorageService fileStorageService;
@@ -31,12 +36,14 @@ public class ArticleService {
 
     public ArticleService(
         ArticleRepository articleRepository,
+        CategoryRepository categoryRepository,
         UserRepository userRepository,
         JwtService jwtService,
         FileStorageService fileStorageService,
         HttpServletRequest servletRequest
     ) {
         this.articleRepository = articleRepository;
+        this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.fileStorageService = fileStorageService;
@@ -51,6 +58,20 @@ public class ArticleService {
         );
     }
 
+    public ResponseDto<?> getMyArticles() {
+        String token = servletRequest.getHeader("Authorization");
+        if (token == null || !token.startsWith("Bearer ")) throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unouthorized");
+        token = token.substring(7);
+        Integer userId = jwtService.extractUserId(token);
+        User user = userRepository.findById(userId).get();
+        List<Article> articles = user.getArticle();
+        return new ResponseDto<List<Article>>(
+            "OK", 
+            "Get articles successfully", 
+            articles
+        );
+    }
+
     public ResponseDto<Article> getArticleById(Integer id) {
         Article article = articleRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "article not found"));
@@ -61,7 +82,7 @@ public class ArticleService {
         );
     }
 
-    public ResponseDto<Article> store(String title, String content, MultipartFile image) throws IOException {
+    public ResponseDto<Article> store(String title, String content, MultipartFile image, List<Integer> categories_id) throws IOException {
         Integer userId = jwtService.extractUserId(servletRequest.getHeader("Authorization"));
         User author = userRepository.findById(userId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "forbidden"));
@@ -73,6 +94,11 @@ public class ArticleService {
             String imageUrl = fileStorageService.store(image, "article");
             article.setImageUrl(imageUrl);
         }
+        Set<Category> categories = new HashSet<>();
+        if (categories_id != null && !categories_id.isEmpty()) {
+            categories.addAll(categoryRepository.findAllById(categories_id));
+            article.setCategories(categories);
+        }
         return new ResponseDto<Article>(
             "CREATED", 
             "article created successfully", 
@@ -80,7 +106,7 @@ public class ArticleService {
         );
     }
 
-    public ResponseDto<Article> update(Integer id, String title, String content, MultipartFile image) throws IOException {
+    public ResponseDto<Article> update(Integer id, String title, String content, MultipartFile image, List<Integer> categories_id) throws IOException {
         Integer userId = jwtService.extractUserId(servletRequest.getHeader("Authorization"));
         Article article = articleRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "article not found"));
@@ -90,6 +116,11 @@ public class ArticleService {
         if (image != null) {
             String imageUrl = fileStorageService.store(image, "article");
             article.setImageUrl(imageUrl);
+        }
+        Set<Category> categories = new HashSet<>();
+        if (categories_id != null && !categories_id.isEmpty()) {
+            categories.addAll(categoryRepository.findAllById(categories_id));;
+            article.setCategories(categories);
         }
         Article updatedArticle = articleRepository.save(article);
         return new ResponseDto<Article>(

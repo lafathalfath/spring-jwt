@@ -38,13 +38,15 @@ public class UserProfile {
     @Column(
         name = "address",
         unique = true,
-        columnDefinition = "TEXT"
+        columnDefinition = "TEXT",
+        nullable = true
     )
     private String address;
 
     @Column(
         name = "phone",
-        unique = true
+        unique = true,
+        nullable = true
     )
     private String phone;
 

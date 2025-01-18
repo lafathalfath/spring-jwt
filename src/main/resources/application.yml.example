@@ -1,8 +1,12 @@
 server:
   base-url: http://localhost:8080
   port: 8080
+  secret-key: <256bit>
   error:
     include-message: always
+
+client:
+    url: http://localhost:3000
 
 spring:
   application:
