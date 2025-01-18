@@ -5,6 +5,7 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,8 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
     
-    private String SECRET_KEY = "167a0cc18d5b5e545204d0c1bd76ee9671a5ab8e9abef1af705d6b2253ad791b";
+    @Value("${server.secret-key}")
+    private String SECRET_KEY;
         
     public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
