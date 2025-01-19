@@ -131,6 +131,7 @@ public class ArticleService {
     public ResponseDto<Void> destroy(Integer id) {
         Article article = articleRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "article not found"));
+        article.getCategories().clear();
         articleRepository.delete(article);
         return new ResponseDto<Void>(
             "DELETED", 

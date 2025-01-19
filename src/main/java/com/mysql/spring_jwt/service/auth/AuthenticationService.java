@@ -77,14 +77,6 @@ public class AuthenticationService {
         return response;
     }
 
-    public Boolean getExpiration() {
-        String header = servletRequest.getHeader("Authorization");
-        if (header == null) throw new ResponseStatusException(HttpStatus.FORBIDDEN, "unauthorized");
-        String token = header;
-        if (header.startsWith("Bearer ")) token = header.substring(7);
-        return jwtService.isTokenExpired(token);
-    }
-
     public ResponseDto<?> getUserData() {
         String header = servletRequest.getHeader("Authorization");
         if (header == null) throw new ResponseStatusException(HttpStatus.FORBIDDEN, "unauthorized");

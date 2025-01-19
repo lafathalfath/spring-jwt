@@ -1,7 +1,5 @@
 package com.mysql.spring_jwt.controller;
 
-import java.util.HashMap;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,14 +36,6 @@ public class AuthenticationController {
         return ResponseEntity
             .status(200)
             .body(authenticationService.refreshAuthentication());
-    }
-
-    @GetMapping("/get-expiration") 
-    public ResponseEntity<?> getExpiration() {
-        HashMap<String, Boolean> response = new HashMap<>();
-        response.put("isExpire",authenticationService.getExpiration());
-        return ResponseEntity.status(200)
-            .body(response);
     }
 
     @GetMapping("/get-user-data")

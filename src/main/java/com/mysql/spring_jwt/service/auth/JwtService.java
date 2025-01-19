@@ -6,10 +6,8 @@ import java.util.function.Function;
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.mysql.spring_jwt.model.User;
 
@@ -24,7 +22,7 @@ public class JwtService {
     @Value("${server.secret-key}")
     private String SECRET_KEY;
         
-    public boolean isTokenExpired(String token) {
+    private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
         
@@ -68,7 +66,7 @@ public class JwtService {
             .claim("username", user.getUsername())
             .claim("email", user.getEmail())
             .issuedAt(new Date(System.currentTimeMillis()))
-            .expiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000))
+            .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
             .signWith(getSignInKey())
             .compact();
         return token;
@@ -76,8 +74,8 @@ public class JwtService {
 
     public String refreshToken(String token, User user) {
         if (token != null && token.startsWith("Bearer ")) token = token.substring(7);
-        if (!isValid(token, user)) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Token");
-        // Claims claims = extractAllClaims(token);
+        // if (!isValid(token, user)) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Token");
+        if (!isValid(token, user)) return null;
         return generateToken(user);
     }
 
